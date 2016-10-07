@@ -41,6 +41,11 @@ namespace GameProgramming2D
                 GameManager.Instance.Player.LayBomb ();
             }
 
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                GameManager.Instance.Save();
+            }
+
             var horizontal = Input.GetAxis ( "Horizontal" );
             GameManager.Instance.Player.SetHorizontal ( horizontal );
         }
