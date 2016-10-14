@@ -211,5 +211,15 @@ namespace GameProgramming2D
         {
             return _enemies.Remove(enemy);
         }
+
+        public void QuitGame()
+        {
+            Dialog dialog = GUIManager.CreateDialog();
+            dialog.SetHeadline("Quit game");
+            dialog.SetText("Are you sure you want to quit game?");
+            dialog.SetOnOKClicked(() => Application.Quit()); //Anonymous method (lambda) that utilizes Application.Quit() when called
+            dialog.SetOnCancelClicked();
+            dialog.Show();
+        }
     }
 }

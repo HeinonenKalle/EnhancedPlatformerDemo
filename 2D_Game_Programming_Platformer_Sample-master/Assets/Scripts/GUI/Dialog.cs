@@ -26,6 +26,8 @@ namespace GameProgramming2D.GUI
 
         #region Private fields
         private Vector3 _okButtonPosition;
+        private UnityAction _okButtonClick;
+        private UnityAction _cancelButtonClick;
         #endregion
 
         #region Unity messages
@@ -43,17 +45,31 @@ namespace GameProgramming2D.GUI
 
         public void CloseDialog(DialogClosedDelegate dialogClosedDelegate = null, bool destroyAfterClose = true)
         {
+            if(dialogClosedDelegate != null)
+            {
+                dialogClosedDelegate();
+            }
 
+            if(destroyAfterClose)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         public void SetOnOKClicked(DialogClosedDelegate callback = null, bool destroyAfterClose = true)
         {
-
+            _okButtonClick = () => CloseDialog(callback, destroyAfterClose);
+            SetButtonOnClick(_okButton, _okButtonClick);
         }
 
         public void SetOnCancelClicked(DialogClosedDelegate callback = null, bool destroyAfterClose = true)
         {
-
+            _cancelButtonClick = () => CloseDialog(callback, destroyAfterClose);
+            SetButtonOnClick(_cancelButton, _cancelButtonClick);
         }
 
         public void SetHeadline(string text)
@@ -84,12 +100,30 @@ namespace GameProgramming2D.GUI
 
         public void SetOKButtonText(string text)
         {
-
+            SetButtonText(_okButton, text);
         }
 
         public void SetCancelButtonText(string text)
         {
+            SetButtonText(_cancelButton, text);
+        }
+        #endregion
 
+        #region Private methods
+        /// <summary>
+        /// Sets text to button's child text component
+        /// </summary>
+        /// <param name="button">The button which has the text to change</param>
+        /// <param name="text">The new text for the button</param>
+        private void SetButtonText(Button button, string text)
+        {
+            Text label = button.GetComponentInChildren<Text>();
+            label.text = text;
+        }
+
+        private void SetButtonOnClick(Button button, UnityAction callback)
+        {
+            button.onClick.AddListener(callback);
         }
         #endregion
     }
