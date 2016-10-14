@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using GameProgramming2D.State;
+using GameProgramming2D.GUI;
 using System.Collections;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,9 @@ namespace GameProgramming2D
         [SerializeField]
         private Enemy _enemyWithoutShip;
 
+        [SerializeField]
+        private GUIManager _guiManagerPrefab;
+
         public Pauser Pauser
         {
             get
@@ -59,6 +63,8 @@ namespace GameProgramming2D
         }
 
         public GameStateManager StateManager { get; private set; }
+        public GUIManager GUIManager { get; private set; }
+
 
         private void Awake()
         {
@@ -84,10 +90,18 @@ namespace GameProgramming2D
 
         private void Init()
         {
-            _pauser = gameObject.GetOrAddComponent<Pauser> ();
-            _inputManager = gameObject.GetOrAddComponent<InputManager> ();
-            _playerControl = FindObjectOfType<PlayerControl> ();
-            InitGameStateManager ();
+            _pauser = gameObject.GetOrAddComponent<Pauser>();
+            _inputManager = gameObject.GetOrAddComponent<InputManager>();
+            _playerControl = FindObjectOfType<PlayerControl>();
+            InitGameStateManager();
+            InitGUIManager();
+        }
+
+        private void InitGUIManager()
+        {
+            GUIManager = Instantiate(_guiManagerPrefab);
+            GUIManager.transform.SetParent(transform);
+            GUIManager.Init();
         }
 
         private void InitGameStateManager ()

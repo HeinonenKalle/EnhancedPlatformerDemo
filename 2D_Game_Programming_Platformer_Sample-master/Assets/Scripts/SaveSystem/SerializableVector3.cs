@@ -17,6 +17,13 @@ namespace GameProgramming2D
             Z = vector.z;
         }
 
+        public SerializableVector3(Vector2 vector)
+        {
+            X = vector.x;
+            Y = vector.y;
+            Z = 0;
+        }
+
         public static implicit operator SerializableVector3(Vector3 vector)
         {
             return new SerializableVector3(vector);
